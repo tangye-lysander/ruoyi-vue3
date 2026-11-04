@@ -1,0 +1,37 @@
+.DS_Store
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+**/*.log
+
+tests/**/coverage/
+tests/e2e/reports
+selenium-debug.log
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.local
+
+package-lock.json
+yarn.lock
+
+# pnpm 本地产物（pnpm-lock.yaml 与 pnpm-workspace.yaml 需要提交，不要排除）
+.pnpm-store/
+modules.yaml
+node_modules/.pnpm/
+
+# 构建与缓存产物
+.vite/
+dist-ssr/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
