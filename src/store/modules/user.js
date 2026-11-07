@@ -49,7 +49,7 @@ const useUserStore = defineStore(
             this.id = user.userId
             this.name = user.userName
             this.nickName = user.nickName
-            // 保存 objectKey 原值，展示时由 resolveImg 拼接前缀
+            // 后端 getInfo 返回的 avatar 为完整 URL，直接保存用于渲染
             this.avatar = user.avatar || ''
             cache.session.set('pwrChrtype', res.pwdChrtype)
             /* 初始密码提示 */

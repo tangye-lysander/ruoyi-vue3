@@ -53,11 +53,6 @@ import Sortable from 'sortablejs'
 
 const props = defineProps({
   modelValue: [String, Object, Array],
-  // OSS 前缀，objectKey 渲染时自动拼接；一般无需传入
-  ossPrefix: {
-    type: String,
-    default: import.meta.env.VITE_APP_OSS_PREFIX || ""
-  },
   // 上传接口地址
   action: {
     type: String,
@@ -116,10 +111,10 @@ watch(() => props.modelValue, val => {
   if (val) {
     // 首先将值转为数组
     const list = Array.isArray(val) ? val : props.modelValue.split(",")
-    // 然后将数组转为对象数组，name 保存 objectKey 原值，url 用于展示
+    // 然后将数组转为对象数组，name 保存提交值原样，url 即展示地址（后端返回的完整 URL）
     fileList.value = list.map(item => {
       if (typeof item === "string") {
-        item = { name: item, url: resolveImgWithPrefix(item) }
+        item = { name: item, url: item }
       }
       return item
     })
@@ -128,13 +123,6 @@ watch(() => props.modelValue, val => {
     return []
   }
 },{ deep: true, immediate: true })
-
-// 拼接 OSS 前缀，已是完整地址时原样返回
-function resolveImgWithPrefix(key) {
-  if (!key) return ""
-  if (/^https?:\/\//.test(key)) return key
-  return props.ossPrefix + (key.startsWith("/") ? key : "/" + key)
-}
 
 // 上传前loading加载
 function handleBeforeUpload(file) {
@@ -179,9 +167,9 @@ function handleExceed() {
 // 上传成功回调
 function handleUploadSuccess(res, file) {
   if (res.code === 200) {
-    // 后端返回的 fileName 为 objectKey，name 存原值，url 用于展示
+    // name 存提交值原样（用于删除），url 用后端返回的完整地址展示
     const key = res.fileName || res.objectKey
-    uploadList.value.push({ name: key, url: resolveImgWithPrefix(key) })
+    uploadList.value.push({ name: key, url: res.url || key })
     uploadedSuccessfully()
   } else {
     number.value--

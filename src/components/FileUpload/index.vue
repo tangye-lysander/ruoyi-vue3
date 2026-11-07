@@ -163,7 +163,8 @@ function handleUploadError(err) {
 // 上传成功回调
 function handleUploadSuccess(res, file) {
   if (res.code === 200) {
-    uploadList.value.push({ name: res.fileName, url: res.fileName })
+    // name 存 objectKey 原值（用于提交），url 用后端返回的完整地址展示
+    uploadList.value.push({ name: res.fileName, url: res.url || res.fileName })
     uploadedSuccessfully()
   } else {
     number.value--

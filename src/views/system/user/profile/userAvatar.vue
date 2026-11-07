@@ -144,7 +144,7 @@ function uploadImg() {
     formData.append("avatarfile", data, options.filename)
     uploadAvatar(formData).then(response => {
       open.value = false
-      // 后端返回的 imgUrl 为 OSS objectKey，store 中保存原值，渲染时再拼接前缀
+      // 后端返回的 imgUrl 为完整 URL，store 中保存后各处直接渲染（resolveImg 对 http(s) 原样返回）
       userStore.avatar = response.imgUrl
       options.img = resolveImg(response.imgUrl)
       proxy.$modal.msgSuccess("修改成功")
